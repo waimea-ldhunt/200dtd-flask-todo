@@ -27,7 +27,7 @@ register_error_handlers(app)
 def index():
     with connect_db() as client:
         # Add the thing to the DB
-        sql = "SELECT name, timestamp, complete FROM tasks ORDER BY priority DESC"
+        sql = "SELECT * FROM tasks ORDER BY priority DESC"
         result = client.execute(sql)
         tasks = result.rows
 
@@ -60,11 +60,11 @@ def show_all_things():
 #-----------------------------------------------------------
 # Thing page route - Show details of a single thing
 #-----------------------------------------------------------
-@app.get("/thing/<int:id>")
+@app.get("/task/<int:id>")
 def show_one_thing(id):
     with connect_db() as client:
         # Get the thing details from the DB
-        sql = "SELECT id, name, price FROM things WHERE id=?"
+        sql = "SELECT * FROM tasks WHERE id=?"
         values = [id]
         result = client.execute(sql, values)
 
@@ -72,7 +72,7 @@ def show_one_thing(id):
         if result.rows:
             # yes, so show it on the page
             thing = result.rows[0]
-            return render_template("pages/thing.jinja", thing=thing)
+            return render_template("pages/task.jinja", thing=thing)
 
         else:
             # No, so show error

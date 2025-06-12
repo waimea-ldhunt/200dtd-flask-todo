@@ -22,23 +22,50 @@
     <table>
   <thead>
     <tr>
+      <th scope="col">Priority</th>
       <th scope="col">Task</th>
       <th scope="col">Timestamp</th>
-      <th scope="col">Complete?</th>
+      <th scope="col">Completed</th>
     </tr>
   </thead>
   <tbody>
     {% for task in tasks %}
                 <tr>
-                    <th scope="row"><a href="/">
-                        {{ task.name }}
-                    </a></th>
-                    <td>
+                    <form>
+                      <th scope="row">
+                        <select aria-label="{{task.priority}}">
+                          <option selected disabled>{{task.priority}}</option>
+                          <option>5</option>
+                          <option>4</option>
+                          <option>3</option>
+                          <option>2</option>
+                          <option>1</option>
+                        </select>    
+
+                      </th>
+
+                      <td><a href="/task/{{task.id}}">
+                          {{ task.name }}
+                      </a></td>
+
+                      <td>
                         {{ task.timestamp }}
-                    </td>
-                    <td>
-                        {{ task.complete }}
-                    </td>
+                      </td>
+                    
+                      {% if task.complete == 1 %}
+                        <td>
+                          <input name="complete" type="checkbox" role="switch" checked>
+                        </td>
+                      {% else %}
+                        <td>
+                          <input name="complete" type="checkbox" role="switch">
+                        </td>
+                      {% endif %}
+                      <td>
+                        <input type="submit">
+                      </td>
+                    </form>
+
                 </tr>
                 
             {% else %}
