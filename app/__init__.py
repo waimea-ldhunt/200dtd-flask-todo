@@ -86,21 +86,21 @@ def show_one_thing(id):
 def add_a_thing():
     # Get the data from the form
     name  = request.form.get("name")
-    price = request.form.get("price")
+    priority = request.form.get("priority")
 
     # Sanitise the inputs
     name = html.escape(name)
-    price = html.escape(price)
+    priority = html.escape(priority)
 
     with connect_db() as client:
         # Add the thing to the DB
-        sql = "INSERT INTO things (name, price) VALUES (?, ?)"
-        values = [name, price]
+        sql = "INSERT INTO tasks (name, price) VALUES (?, ?)"
+        values = [name, priority]
         client.execute(sql, values)
 
         # Go back to the home page
-        flash(f"Thing '{name}' added", "success")
-        return redirect("/things")
+        flash(f"{name} added", "success")
+        return redirect("/")
 
 
 #-----------------------------------------------------------
@@ -110,12 +110,49 @@ def add_a_thing():
 def delete_a_thing(id):
     with connect_db() as client:
         # Delete the thing from the DB
-        sql = "DELETE FROM things WHERE id=?"
+        
+        sql = "DELETE FROM tasks WHERE id=?"
         values = [id]
         client.execute(sql, values)
 
         # Go back to the home page
         flash("Thing deleted", "warning")
-        return redirect("/things")
+        return redirect("/")
+    
 
 
+@app.post("/reorder/<int:id>")
+def reorder_a_thing(id):
+    with connect_db() as client:
+
+        priority  = request.form.get("priority")
+        # Delete the thing from the DB
+        sql = "UPDATE tasks SET priority=? WHERE id=?"
+        values = [priority, id]
+        client.execute(sql, values)
+
+        # Go back to the home page
+        flash("Priority Changed", "warning")
+        return redirect("/")
+
+@app.post("/swap/<int:id>")
+def swap_a_thing(id):
+    with connect_db() as client:
+
+        completion  = request.form.get("completion")
+        # Delete the thing from the DB
+
+        if completion == "on" :
+            sql = "UPDATE tasks SET complete=? WHERE id=?"
+            values = [1, id]
+            client.execute(sql, values)
+            flash("Completed", "warning")
+        else:
+            sql = "UPDATE tasks SET complete=? WHERE id=?"
+            values = [0, id]
+            client.execute(sql, values)
+            flash("Uncompleted", "warning")
+
+        # Go back to the home page
+        
+        return redirect("/")

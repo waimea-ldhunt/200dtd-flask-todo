@@ -26,27 +26,30 @@
       <th scope="col">Task</th>
       <th scope="col">Timestamp</th>
       <th scope="col">Completed</th>
+      <th scope="col"></th>
     </tr>
   </thead>
   <tbody>
     {% for task in tasks %}
                 <tr>
-                    <form>
                       <th scope="row">
-                        <select aria-label="{{task.priority}}">
-                          <option selected disabled>{{task.priority}}</option>
-                          <option>5</option>
-                          <option>4</option>
-                          <option>3</option>
-                          <option>2</option>
-                          <option>1</option>
-                        </select>    
-
+                        <form action="/reorder/{{task.id}}" method="POST">
+                          <label>
+                            <select name="priority" aria-label="{{task.priority}}" onchange="this.form.submit()">
+                              <option selected disabled>{{task.priority}}</option>
+                              <option>5</option>
+                              <option>4</option>
+                              <option>3</option>
+                              <option>2</option>
+                              <option>1</option>
+                            </select>  
+                          </label>  
+                        </form>
                       </th>
 
-                      <td><a href="/task/{{task.id}}">
+                      <td>
                           {{ task.name }}
-                      </a></td>
+                      </td>
 
                       <td>
                         {{ task.timestamp }}
@@ -54,17 +57,24 @@
                     
                       {% if task.complete == 1 %}
                         <td>
-                          <input name="complete" type="checkbox" role="switch" checked>
+                          <form action="/swap/{{task.id}}" method="POST">
+                            <label>
+                              <input name="completion" type="checkbox" role="switch" aria-invalid="false" onchange="this.form.submit()" checked>
+                            </label>
+                          </form>
                         </td>
                       {% else %}
                         <td>
-                          <input name="complete" type="checkbox" role="switch">
+                          <form action="/swap/{{task.id}}" method="POST">
+                            <label>
+                              <input name="completion" type="checkbox" role="switch" aria-invalid="true" onchange="this.form.submit()">
+                            </label>
+                          </form>
                         </td>
                       {% endif %}
                       <td>
-                        <input type="submit">
+                        <a role="button" href="/delete/{{task.id}}">Delete</a>
                       </td>
-                    </form>
 
                 </tr>
                 
@@ -73,10 +83,30 @@
                 <p>None!</p>
 
     {% endfor %}
+
+  
+
   </tbody>
 </table>
 
-    
+  <h2>Add Task:</h2>
+
+  <form action="/add" method="post">
+    <label>
+      <input name="name" placeholder="Task Name" required>
+    </label>
+    <label>
+      <select name="priority" required>
+        <option disabled selected>Priority</option>
+        <option>5</option>
+        <option>4</option>
+        <option>3</option>
+        <option>2</option>
+        <option>1</option>
+      </select>
+    </label>
+    <input type="submit" value="Add Task">
+  </form>
 
 {% endblock %}
 
