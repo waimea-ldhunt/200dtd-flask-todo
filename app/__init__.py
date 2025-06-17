@@ -94,7 +94,7 @@ def add_a_thing():
 
     with connect_db() as client:
         # Add the thing to the DB
-        sql = "INSERT INTO tasks (name, price) VALUES (?, ?)"
+        sql = "INSERT INTO tasks (name, priority) VALUES (?, ?)"
         values = [name, priority]
         client.execute(sql, values)
 

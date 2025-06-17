@@ -32,3 +32,23 @@
 
 #messages .message.success { color: var(--pico-ins-color); }
 #messages .message.error   { color: var(--pico-del-color); }
+
+#priority1 {
+    color: red;
+}
+#priority2 {
+    color: orange;
+}
+#priority3 {
+    color: yellow;
+}
+#priority4 {
+    color: yellowgreen;
+}
+#priority5 {
+    color: green;
+}
+#complete1 {
+    text-decoration: line-through;
+    color: slategray;
+}

@@ -33,20 +33,17 @@
     <header>
         <nav>
             <ul>
-                <li><strong><a href="/">Flask App Demo</a></strong></li>
+                <li><strong><a href="/">To Do</a></strong></li>
             </ul>
-
+                {# Show flash messages from any previous events #}
+                {% include "components/messages.jinja" %}
             <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/things">Things</a></li>
-                <li><a href="/about">About</a></li>
             </ul>
         </nav>
     </header>
 
 
-    {# Show flash messages from any previous events #}
-    {% include "components/messages.jinja" %}
+    
 
 
     <main>

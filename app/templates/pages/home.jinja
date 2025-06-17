@@ -35,23 +35,23 @@
                       <th scope="row">
                         <form action="/reorder/{{task.id}}" method="POST">
                           <label>
-                            <select name="priority" aria-label="{{task.priority}}" onchange="this.form.submit()">
-                              <option selected disabled>{{task.priority}}</option>
-                              <option>5</option>
-                              <option>4</option>
-                              <option>3</option>
-                              <option>2</option>
-                              <option>1</option>
+                            <select name="priority" aria-label="{{task.priority}}" onchange="this.form.submit()" id="priority{{task.priority}}">
+                              <option selected disabled id="priority{{task.priority}}">{{task.priority}}</option>
+                              <option id="priority5">5</option>
+                              <option id="priority4">4</option>
+                              <option id="priority3">3</option>
+                              <option id="priority2">2</option>
+                              <option id="priority1">1</option>
                             </select>  
                           </label>  
                         </form>
                       </th>
 
-                      <td>
+                      <td id="complete{{task.complete}}">
                           {{ task.name }}
                       </td>
 
-                      <td>
+                      <td id="complete{{task.complete}}">
                         {{ task.timestamp }}
                       </td>
                     
@@ -73,7 +73,7 @@
                         </td>
                       {% endif %}
                       <td>
-                        <a role="button" href="/delete/{{task.id}}">Delete</a>
+                        <a role="button" onclick="return confirm('Are you sure you want to delete task: {{task.name}}')" href="/delete/{{task.id}}">Delete</a>
                       </td>
 
                 </tr>
@@ -92,20 +92,23 @@
   <h2>Add Task:</h2>
 
   <form action="/add" method="post">
-    <label>
-      <input name="name" placeholder="Task Name" required>
-    </label>
-    <label>
-      <select name="priority" required>
-        <option disabled selected>Priority</option>
-        <option>5</option>
-        <option>4</option>
-        <option>3</option>
-        <option>2</option>
-        <option>1</option>
-      </select>
-    </label>
-    <input type="submit" value="Add Task">
+    <fieldset class="grid">
+      <label>
+        Task Name
+        <input name="name" placeholder="Task Name" required>
+      </label>
+      <label>
+        Priority
+        <select name="priority" required>
+          <option id="priority5">5</option>
+          <option id="priority4">4</option>
+          <option id="priority3" selected>3</option>
+          <option id="priority2">2</option>
+          <option id="priority1">1</option>
+        </select>
+      </label>
+      <input type="submit" value="Add Task">
+    </fieldset>
   </form>
 
 {% endblock %}
